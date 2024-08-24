@@ -1,8 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstap/Navigator.dart';
-import 'package:firstap/componant/textformpassword.dart';
-import 'package:firstap/firstapp/project.dart';
-import 'package:firstap/projects/Textfield.dart';
+import 'package:firstap/firebase/home.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 
@@ -16,8 +13,8 @@ class reg extends StatefulWidget {
 class _regState extends State<reg> {
   late final Future<UserCredential> credential;
   TextEditingController username = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController conpassword = TextEditingController();
  bool isLoading=false;
 
@@ -103,7 +100,7 @@ class _regState extends State<reg> {
       ),
       textfeild(
         hinttext: 'Enter Your Email',
-        mycontrollrt: email,
+        mycontrollrt: emailController,
       ),
       Container(
         height: 10,
@@ -120,7 +117,7 @@ class _regState extends State<reg> {
       ),
       textfeildpassword(
         hinttext: 'Enter Password',
-        mycontrooler: password,
+        mycontrooler: passwordController,
       ),
       Container(
         height: 10,
@@ -143,36 +140,8 @@ class _regState extends State<reg> {
         width: 50,
         padding: EdgeInsets.only(top: 30),
         child: MaterialButton(
-            onPressed: () async {
-              Future<void> signUp(emailController, passwordController, context) async {
-                try {
-                  final credential =
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                    email: emailController.text,
-                    password: passwordController.text,
-                  );
-
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => about(),
-                  ));
-                } on FirebaseAuthException catch (e) {
-                  String message;
-                  if (e.code == 'weak-password') {
-                    message = 'The password provided is too weak.';
-                  } else if (e.code == 'email-already-in-use') {
-                    message = 'The account already exists for that email.';
-                  } else {
-                    message = 'An error occurred. Please try again.';
-                  }
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(message)),
-                  );
-                } catch (e) {
-                  print(e);
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('An unexpected error occurred.')));
-                }
+            onPressed: ()  {
+    signUp(emailController,passwordController,context);
               }
               // try {
               //   final credential = await FirebaseAuth.instance
@@ -204,7 +173,7 @@ class _regState extends State<reg> {
               //       SnackBar(content: Text('An unexpected error occurred.')));
               //
               //       }
-                }
+
 
 
           ,  child: Text("Register"),
@@ -289,3 +258,34 @@ class textfeildpassword extends StatelessWidget {
     );
   }
 }
+
+
+Future<void> signUp(emailController, passwordController, context) async {
+  try {
+    final credential =
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => homeapp(),
+    ));
+  } on FirebaseAuthException catch (e) {
+    String message;
+    if (e.code == 'weak-password') {
+      message = 'The password provided is too weak.';
+    } else if (e.code == 'email-already-in-use') {
+      message = 'The account already exists for that email.';
+    } else {
+      message = 'An error occurred. Please try again.';
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  } catch (e) {
+    print(e);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('An unexpected error occurred.')));
+  }}

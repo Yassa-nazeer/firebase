@@ -2,26 +2,10 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firstap/Navigator.dart';
-import 'package:firstap/Search.dart';
 import 'package:firstap/firebase/home.dart';
-import 'package:firstap/projects/Http%20Api.dart';
-import 'package:firstap/projects/Navigator.dart';
-import 'package:firstap/projects/packageaesomedialog.dart';
-import 'package:firstap/projects/popmenu.dart';
-import 'package:firstap/projects/scroallaer.dart';
-import 'package:firstap/projects/shareRefrence.dart';
-import 'package:firstap/projects/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'firebase/login.dart';
-import 'firstapp/project.dart';
-import 'initestate&dispos.dart';
-import 'Futurebuild.dart';
-import 'Navigator5.dart';
-import 'droplist.dart';
-import 'Showdialog.dart';
-import 'locationpackage.dart';
 
 void main()
 async {
@@ -71,9 +55,8 @@ class _MyAppstate extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:FirebaseAuth.instance.currentUser==null? firebase():about(),
+      home:FirebaseAuth.instance.currentUser==null? firebase():homeapp(),
       routes: {
-        "project":(context)=>about(),
         "log":(context)=>firebase(),
         "home":(context)=>homeapp()
       },
