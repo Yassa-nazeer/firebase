@@ -3,8 +3,6 @@ import 'package:firstap/projects/Textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-
-import '../componant/textfeild.dart';
 import '../componant/textformpassword.dart';
 import 'Register.dart';
 
@@ -204,6 +202,49 @@ class _firebaseState extends State<firebase> {
 
           ],)
         ],
+      ),
+    );
+  }
+}
+class textfeild extends StatelessWidget {
+  final String hinttext;
+  final TextEditingController mycontrollrt;
+  const textfeild({super.key, required this.hinttext, required this.mycontrollrt});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: mycontrollrt,
+      decoration: InputDecoration(
+        hintText: hinttext,
+        fillColor: Colors.grey[250],
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.grey)),
+        filled: true,
+      ),
+
+    );
+  }
+}
+
+class textfeildpassword extends StatelessWidget {
+  final String hinttext;
+  final TextEditingController mycontrooler;
+  const textfeildpassword({super.key, required this.hinttext, required this.mycontrooler});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller:mycontrooler ,
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: hinttext,
+        fillColor: Colors.grey[250],
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.grey)),
+        filled: true,
       ),
     );
   }

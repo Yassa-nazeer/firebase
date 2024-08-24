@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firstap/Navigator.dart';
 import 'package:firstap/componant/textformpassword.dart';
 import 'package:firstap/firstapp/project.dart';
 import 'package:firstap/projects/Textfield.dart';
 import 'package:flutter/material.dart';
-import '../componant/textfeild.dart';
 import 'login.dart';
 
 class reg extends StatefulWidget {
@@ -19,6 +19,7 @@ class _regState extends State<reg> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController conpassword = TextEditingController();
+ bool isLoading=false;
 
   @override
   Widget build(BuildContext context) {
@@ -143,36 +144,66 @@ class _regState extends State<reg> {
         padding: EdgeInsets.only(top: 30),
         child: MaterialButton(
             onPressed: () async {
-              try {
-                final credential = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                  email: email.text,
-                  password: password.text,
-                );
+              Future<void> signUp(emailController, passwordController, context) async {
+                try {
+                  final credential =
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
 
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => about(),
+                  ));
+                } on FirebaseAuthException catch (e) {
+                  String message;
+                  if (e.code == 'weak-password') {
+                    message = 'The password provided is too weak.';
+                  } else if (e.code == 'email-already-in-use') {
+                    message = 'The account already exists for that email.';
+                  } else {
+                    message = 'An error occurred. Please try again.';
+                  }
 
-                Navigator.of(context).pushReplacementNamed("project");
-              } on FirebaseAuthException catch (e) {
-                String message;
-                if (e.code == 'weak-password') {
-                  message = 'The password provided is too weak.';
-                } else if (e.code == 'email-already-in-use') {
-                  message = 'The account already exists for that email.';
-                } else {
-                  message = 'An error occurred. Please try again.';
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(message)),
+                  );
+                } catch (e) {
+                  print(e);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('An unexpected error occurred.')));
                 }
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(message)),
-                );
-              } catch (e) {
-                print(e);
-                ScaffoldMessenger
-                    .of(context)
-                    .showSnackBar(
-                    SnackBar(content: Text('An unexpected error occurred.')));
-
-                    }
+              }
+              // try {
+              //   final credential = await FirebaseAuth.instance
+              //       .createUserWithEmailAndPassword(
+              //     email: email.text,
+              //     password: password.text,
+              //   );
+              //
+              //
+              //   Navigator.of(context).pushReplacementNamed("project");
+              // } on FirebaseAuthException catch (e) {
+              //   String message;
+              //   if (e.code == 'weak-password') {
+              //     message = 'The password provided is too weak.';
+              //   } else if (e.code == 'email-already-in-use') {
+              //     message = 'The account already exists for that email.';
+              //   } else {
+              //     message = 'An error occurred. Please try again.';
+              //   }
+              //
+              //   ScaffoldMessenger.of(context).showSnackBar(
+              //     SnackBar(content: Text(message)),
+              //   );
+              // } catch (e) {
+              //   print(e);
+              //   ScaffoldMessenger
+              //       .of(context)
+              //       .showSnackBar(
+              //       SnackBar(content: Text('An unexpected error occurred.')));
+              //
+              //       }
                 }
 
 
@@ -212,6 +243,49 @@ class _regState extends State<reg> {
     ,
     )
     ,
+    );
+  }
+}
+class textfeild extends StatelessWidget {
+  final String hinttext;
+  final TextEditingController mycontrollrt;
+  const textfeild({super.key, required this.hinttext, required this.mycontrollrt});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: mycontrollrt,
+      decoration: InputDecoration(
+        hintText: hinttext,
+        fillColor: Colors.grey[250],
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.grey)),
+        filled: true,
+      ),
+
+    );
+  }
+}
+
+class textfeildpassword extends StatelessWidget {
+  final String hinttext;
+  final TextEditingController mycontrooler;
+  const textfeildpassword({super.key, required this.hinttext, required this.mycontrooler});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller:mycontrooler ,
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: hinttext,
+        fillColor: Colors.grey[250],
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.grey)),
+        filled: true,
+      ),
     );
   }
 }

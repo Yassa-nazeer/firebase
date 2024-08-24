@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firstap/Navigator.dart';
 import 'package:firstap/Search.dart';
+import 'package:firstap/firebase/home.dart';
 import 'package:firstap/projects/Http%20Api.dart';
 import 'package:firstap/projects/Navigator.dart';
 import 'package:firstap/projects/packageaesomedialog.dart';
@@ -74,6 +75,7 @@ class _MyAppstate extends State<MyApp> {
       routes: {
         "project":(context)=>about(),
         "log":(context)=>firebase(),
+        "home":(context)=>homeapp()
       },
       // //theme: ThemeData(
       //   // fontFamily: "Merriweather",
